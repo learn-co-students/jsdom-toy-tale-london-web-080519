@@ -18,14 +18,13 @@ addBtn.addEventListener('click', () => {
 
 // OR HERE!
 document.addEventListener('DOMContentLoaded', e => {
-  fetch(url)
-    .then(resp => resp.json())
-    .then(handleToyCardsFetch)
+  get(url)
+    .then(handleGetToyCards)
 
 })
 
 
-function handleToyCardsFetch(toys) {
+function handleGetToyCards(toys) {
 
   if (Array.isArray(toys)) {
     toys.forEach(toy => {
@@ -48,14 +47,19 @@ function handleToyCardsFetch(toys) {
       likeBtn.innerText = "Like <3"
       likeBtn.addEventListener('click', handleLikeBtnClick)
 
+      let delBtn = document.createElement('button')
+      delBtn.classList.add('del-btn')
+      delBtn.innerText = 'Delete Toy'
+      delBtn.addEventListener('click', handleDeleteBtnClick)
 
-      toyCard.append(toyName, toyImg, likes, likeBtn)
+
+      toyCard.append(toyName, toyImg, likes, likeBtn, delBtn)
       toyCollection.appendChild(toyCard)
     })
   } else {
     const toyCard = document.createElement('div')
     toyCard.classList.add("card")
-    toyCard.setAttribute("data-id", toy.id)
+    toyCard.setAttribute("data-id", toys.id)
 
     let toyName = document.createElement('h2')
     toyName.innerText = toys.name
@@ -72,8 +76,13 @@ function handleToyCardsFetch(toys) {
     likeBtn.innerText = "Like <3"
     likeBtn.addEventListener('click', handleLikeBtnClick)
 
+    let delBtn = document.createElement('button')
+    delBtn.classList.add('del-btn')
+    delBtn.innerText = 'Delete Toy'
+    delBtn.addEventListener('click', handleDeleteBtnClick)
 
-    toyCard.append(toyName, toyImg, likes, likeBtn)
+
+    toyCard.append(toyName, toyImg, likes, likeBtn, delBtn)
     toyCollection.appendChild(toyCard)
   }
 }
@@ -107,7 +116,7 @@ function handleNewToyFormSubmission(e) {
     body: JSON.stringify(data)
   }
 
-  fetch(url, configObj).then(resp => resp.json()).then(handleToyCardsFetch)
+  post(url, configObj).then(handleGetToyCards)
   toyForm.style.display = 'none'
 }
 
@@ -119,9 +128,9 @@ function handleLikeBtnClick(e) {
   let card = e.target.parentNode;
   let likes = button.previousElementSibling
   let likesInt = parseInt(likes.innerText, 10)
-  likes.innerText = ++likesInt
+
   let data = {
-    likes: likesInt
+    likes: ++likesInt
   }
   let configObj = {
     method: "PATCH",
@@ -132,5 +141,34 @@ function handleLikeBtnClick(e) {
     body: JSON.stringify(data)
   }
   
-  fetch(url + card.dataset.id, configObj)
+  patch(url, card.dataset.id, configObj).then(toy => {
+    likes.innerText = toy.likes
+  })
+}
+
+// Del Btn
+function handleDeleteBtnClick(e) {
+  let button = e.target
+  let card = button.parentNode
+  let configObj = {
+    method: "DELETE",
+  }
+  destroy(url, card.dataset.id, configObj)
+  card.remove()
+}
+
+function get(url) {
+  return fetch(url).then(resp => resp.json())
+}
+
+function post(url, configObj) {
+  return fetch(url, configObj).then(resp => resp.json())
+}
+
+function patch(url, id, configObj) {
+  return fetch(url + id, configObj).then(resp => resp.json())
+}
+
+function destroy(url, id, configObj) {
+  return fetch(url + id, configObj)
 }

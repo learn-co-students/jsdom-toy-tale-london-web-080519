@@ -1,34 +1,28 @@
 {
   "toys": [
     {
-      "id": 1,
-      "name": "Woody",
-      "image": "http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
-      "likes": 6
-    },
-    {
       "id": 2,
       "name": "Buzz Lightyear",
       "image": "http://www.pngmart.com/files/6/Buzz-Lightyear-PNG-Transparent-Picture.png",
-      "likes": 16
+      "likes": 22
     },
     {
       "id": 3,
       "name": "Mr. Potato Head",
       "image": "https://vignette.wikia.nocookie.net/universe-of-smash-bros-lawl/images/d/d8/Mr-potato-head-toy-story.gif/revision/latest?cb=20151129131217",
-      "likes": 3
+      "likes": 4
     },
     {
       "id": 4,
       "name": "Slinky Dog",
       "image": "https://www.freeiconspng.com/uploads/slinky-png-transparent-1.png",
-      "likes": 4
+      "likes": 7
     },
     {
       "id": 5,
       "name": "Rex",
       "image": "http://umich.edu/~chemh215/W11HTML/SSG5/ssg5.2/FRex.png",
-      "likes": 1
+      "likes": 2
     },
     {
       "id": 6,
@@ -51,13 +45,13 @@
     {
       "name": "Wheezy",
       "image": "https://vignette.wikia.nocookie.net/p__/images/d/d2/Wheezy_Toy_Story.png/revision/latest?cb=20190620214212&path-prefix=protagonist",
-      "likes": 6,
+      "likes": 0,
       "id": 9
     },
     {
       "name": "Zurg",
       "image": "https://p7.hiclipart.com/preview/295/925/203/sheriff-woody-buzz-lightyear-zurg-clip-art-zurg.jpg",
-      "likes": 3,
+      "likes": 0,
       "id": 10
     }
   ]
