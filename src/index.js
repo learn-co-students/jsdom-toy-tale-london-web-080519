@@ -49,7 +49,6 @@ function increaseLikes(event) {
   let theToysLikes = parseInt(totalLikes)
   theToysLikes = theToysLikes + 1
 
-  //totalLikes = `${theToysLikes}`
 
   let id = event.target.id
   return fetch(`${url}/${id}`, {
@@ -64,7 +63,6 @@ function increaseLikes(event) {
      data.json()
      totalLikes = `${theToysLikes}`
     })
-
 }
 
 //When page loads, make a get request to fetch all toys
@@ -95,19 +93,18 @@ addBtn.addEventListener('click', () => {
 const addToyForm = document.querySelector('form.add-toy-form')
 const createToy = document.querySelector('input.submit')
 
-toyForm.addEventListener("submit", addToyForm)
+toyForm.addEventListener("submit", addNewToy)
 
 function addNewToy(event) {
-  console.log(event.target[0].value)
- //submitToy
-  event.preventDefault();
-
+  submitToy(event.target[0].value, event.target[1].value)
+ // event.preventDefault();
 }
 
-function submitToy(name, url) {
+function submitToy(name, img) {
+  console.log(name)
   let formData = {
     name: name,
-    image: url,
+    image: img,
     likes: 0
   };
   return fetch(url, {
@@ -118,10 +115,8 @@ function submitToy(name, url) {
     },
     body: JSON.stringify(formData)
   }).then(response => response.json())
-  .then(data=> {
-    console.log(data)
-    // document.body.innerHTML = data.id
-  }).catch(function (error) {
+  .then(data=> data.json)
+  .catch(function (error) {
     document.body.innerHTML = error.message;
   })
 }
