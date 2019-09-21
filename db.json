@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Woody",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
-      "likes": 5
+      "likes": 6
     },
     {
       "id": 2,
@@ -40,13 +40,25 @@
       "id": 7,
       "name": "Hamm",
       "image": "https://cdn140.picsart.com/244090226021212.png?r1024x1024",
-      "likes": 0
+      "likes": 1
     },
     {
       "id": 8,
       "name": "Little Green Men",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Alien-PNG-File.png",
       "likes": -2
+    },
+    {
+      "name": "erin",
+      "image": "toy",
+      "likes": 0,
+      "id": 9
+    },
+    {
+      "name": "andy",
+      "image": "https://images.immediate.co.uk/production/volatile/sites/3/2019/03/Screen-Shot-2019-03-20-at-10.35.35-1cb821b.png",
+      "likes": 1,
+      "id": 10
     }
   ]
 }
