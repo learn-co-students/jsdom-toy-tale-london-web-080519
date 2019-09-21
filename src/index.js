@@ -44,19 +44,27 @@ const likeButton = document.querySelectorAll(".like-button")
 
 //patch request should pass in url id of toy and increase its id['likes'] by 1
 function increaseLikes(event) {
-  // let toySelected = event.target.parentNode.firstElementChild.innerText;
+  // let toySelected = event.target.parentNode.firstElementChild.innerText; 
+  let totalLikes = event.target.parentNode.children[2].innerText[0]
+  let theToysLikes = parseInt(totalLikes)
+  theToysLikes = theToysLikes + 1
+
+  //totalLikes = `${theToysLikes}`
+
   let id = event.target.id
   return fetch(`${url}/${id}`, {
     method: 'PATCH',
-    //mode: 'cors', 
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json"
     }, body: JSON.stringify({
-      "likes": "get elements id, increase by 1"
+      "likes": theToysLikes
     })
-  })
- // .then(response=>response.json())
+  }).then(data=>{
+     data.json()
+     totalLikes = `${theToysLikes}`
+    })
+
 }
 
 //When page loads, make a get request to fetch all toys
@@ -70,11 +78,6 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 })
 
-addBtn.addEventListener("click", addNewToy)
-
-function addNewToy(event) {
- // event.target
-}
 
 addBtn.addEventListener('click', () => {
   // hide & seek with the form
@@ -89,4 +92,37 @@ addBtn.addEventListener('click', () => {
 
 // OR HERE!
 
+const addToyForm = document.querySelector('form.add-toy-form')
+const createToy = document.querySelector('input.submit')
+
+toyForm.addEventListener("submit", addToyForm)
+
+function addNewToy(event) {
+  console.log(event.target[0].value)
+ //submitToy
+  event.preventDefault();
+
+}
+
+function submitToy(name, url) {
+  let formData = {
+    name: name,
+    image: url,
+    likes: 0
+  };
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json", 
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(formData)
+  }).then(response => response.json())
+  .then(data=> {
+    console.log(data)
+    // document.body.innerHTML = data.id
+  }).catch(function (error) {
+    document.body.innerHTML = error.message;
+  })
+}
 
