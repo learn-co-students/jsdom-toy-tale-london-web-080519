@@ -1,28 +1,61 @@
+// API Functions
+
+function get(url) {
+  return fetch(url).then(resp => resp.json())
+}
+
+function post(url, data) {
+  const configObj = {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json',
+      "Accept": 'application/json'
+    },
+    body: JSON.stringify(data)
+  }
+  return fetch(url, configObj).then(resp => resp.json())
+}
+
+function patch(url, id, data) {
+  let configObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(data)
+  }
+  return fetch(url + id, configObj).then(resp => resp.json())
+}
+
+function destroy(url, id) {
+  let configObj = {
+    method: "DELETE",
+  }
+  return fetch(url + id, configObj)
+}
+
+const API = {
+  get,
+  post,
+  patch,
+  destroy
+}
+
+
+// Variable declarations
 const addBtn = document.querySelector('#new-toy-btn')
 const toyForm = document.querySelector('.container')
 let addToy = false
 const toyCollection = document.querySelector("div#toy-collection")
 const url = "http://localhost:3000/toys/"
-// YOUR CODE HERE
 
-addBtn.addEventListener('click', () => {
-  // hide & seek with the form
-  addToy = !addToy
-  if (addToy) {
-    toyForm.style.display = 'block'
-  } else {
-    toyForm.style.display = 'none'
-  }
-})
+const addToyForm = document.querySelector('form.add-toy-form')
+const addToyName = document.querySelector('form.add-toy-form input[name="name"]')
+const addToyImage = document.querySelector('form.add-toy-form input[name="image"]')
 
 
-// OR HERE!
-document.addEventListener('DOMContentLoaded', e => {
-  get(url)
-    .then(handleGetToyCards)
-
-})
-
+// Function definitions
 
 function handleGetToyCards(toys) {
 
@@ -40,7 +73,7 @@ function handleGetToyCards(toys) {
       toyImg.classList.add('toy-avatar')
 
       let likes = document.createElement('p')
-      likes.innerText = toy.likes
+      likes.innerText = `${toy.likes} like${toy.likes === 1 ? '' : 's'}`
 
       let likeBtn = document.createElement('button')
       likeBtn.classList.add('like-btn')
@@ -69,7 +102,7 @@ function handleGetToyCards(toys) {
     toyImg.classList.add('toy-avatar')
 
     let likes = document.createElement('p')
-    likes.innerText = toys.likes
+    likes.innerText = `${toys.likes} like${toys.likes === 1 ? '' : 's'}`
 
     let likeBtn = document.createElement('button')
     likeBtn.classList.add('like-btn')
@@ -89,12 +122,8 @@ function handleGetToyCards(toys) {
 
 
 // Create new Toy
-const addToyForm = document.querySelector('form.add-toy-form')
-const addToyName = document.querySelector('form.add-toy-form input[name="name"]')
-const addToyImage = document.querySelector('form.add-toy-form input[name="image"]')
 
 
-addToyForm.addEventListener('submit', handleNewToyFormSubmission)
 
 function handleNewToyFormSubmission(e) {
   e.preventDefault()
@@ -107,16 +136,8 @@ function handleNewToyFormSubmission(e) {
     image,
     likes: 0
   }
-  const configObj = {
-    method: 'POST',
-    headers: {
-      "Content-Type": 'application/json',
-      "Accept": 'application/json'
-    },
-    body: JSON.stringify(data)
-  }
 
-  post(url, configObj).then(handleGetToyCards)
+  API.post(url, data).then(handleGetToyCards)
   toyForm.style.display = 'none'
 }
 
@@ -132,17 +153,9 @@ function handleLikeBtnClick(e) {
   let data = {
     likes: ++likesInt
   }
-  let configObj = {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: JSON.stringify(data)
-  }
   
-  patch(url, card.dataset.id, configObj).then(toy => {
-    likes.innerText = toy.likes
+  API.patch(url, card.dataset.id, data).then(toy => {
+    likes.innerText = `${toy.likes} like${toy.likes === 1 ? '' : 's'}`
   })
 }
 
@@ -150,25 +163,30 @@ function handleLikeBtnClick(e) {
 function handleDeleteBtnClick(e) {
   let button = e.target
   let card = button.parentNode
-  let configObj = {
-    method: "DELETE",
-  }
-  destroy(url, card.dataset.id, configObj)
+  
+  API.destroy(url, card.dataset.id)
   card.remove()
 }
 
-function get(url) {
-  return fetch(url).then(resp => resp.json())
-}
+// Event listeners
 
-function post(url, configObj) {
-  return fetch(url, configObj).then(resp => resp.json())
-}
 
-function patch(url, id, configObj) {
-  return fetch(url + id, configObj).then(resp => resp.json())
-}
 
-function destroy(url, id, configObj) {
-  return fetch(url + id, configObj)
-}
+addBtn.addEventListener('click', () => {
+  // hide & seek with the form
+  addToy = !addToy
+  if (addToy) {
+    toyForm.style.display = 'block'
+    addToyForm.addEventListener('submit', handleNewToyFormSubmission)
+  } else {
+    toyForm.style.display = 'none'
+    addToyForm.removeEventListener('submit', handleNewToyFormSubmission)
+
+  }
+})
+
+document.addEventListener('DOMContentLoaded', e => {
+  API.get(url)
+    .then(handleGetToyCards)
+
+})

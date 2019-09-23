@@ -4,7 +4,7 @@
       "id": 2,
       "name": "Buzz Lightyear",
       "image": "http://www.pngmart.com/files/6/Buzz-Lightyear-PNG-Transparent-Picture.png",
-      "likes": 22
+      "likes": 26
     },
     {
       "id": 3,
@@ -45,13 +45,13 @@
     {
       "name": "Wheezy",
       "image": "https://vignette.wikia.nocookie.net/p__/images/d/d2/Wheezy_Toy_Story.png/revision/latest?cb=20190620214212&path-prefix=protagonist",
-      "likes": 0,
+      "likes": 2,
       "id": 9
     },
     {
       "name": "Zurg",
       "image": "https://p7.hiclipart.com/preview/295/925/203/sheriff-woody-buzz-lightyear-zurg-clip-art-zurg.jpg",
-      "likes": 0,
+      "likes": 1,
       "id": 10
     }
   ]
